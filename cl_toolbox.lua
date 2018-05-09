@@ -230,7 +230,7 @@ RegisterNUICallback( "ButtonClick", function( data, cb )
 	end 
 
 	-- This will only be called if any button other than the exit button is pressed
-	ToggleActionMenu()
+--	ToggleActionMenu() Uncomment this if you want the menu to close, after selecting an option.
 end )
 
 
