@@ -3,6 +3,10 @@
 # Server Toolbox
 Credit to Wolf Knight for creating the Action Menu - https://forum.fivem.net/t/release-actionmenu-1-0-0/46484
 
+# Installation
+Rename roleplay-toolbox-master
+
+Add start roleplay-toolbox-master to your server.cfg
 
 # Credits:
 - Wolfknight - Action Menu and Delete Script.
