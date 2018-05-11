@@ -2192,6 +2192,18 @@ AddEventHandler('Engine', function()
 end)
  --]]
 
+function EngineToggle()
+    player = GetPlayerPed(-1)
+    local vehicle = GetVehiclePedIsIn(player, false)
+    if IsVehicleEngineOn(vehicle) then
+        SetVehicleEngineOn(vehicle, false, false, true)
+        SetVehicleUndriveable(vehicle, true)
+    else
+        SetVehicleEngineOn(vehicle, true, false, true)
+        SetVehicleUndriveable(vehicle, false)
+    end
+end
+
 function drawNotification(text) --Just Don't Edit!
     SetNotificationTextEntry("STRING")
     AddTextComponentString(text)
@@ -2211,16 +2223,4 @@ function table.contains(table, element)
     end
   end
   return false
-end
-
-function EngineToggle()
-    player = GetPlayerPed(-1)
-    local vehicle = GetVehiclePedIsIn(player, false)
-    if IsVehicleEngineOn(vehicle) then
-        SetVehicleEngineOn(vehicle, false, false, true)
-        SetVehicleUndriveable(vehicle, true)
-    else
-        SetVehicleEngineOn(vehicle, true, false, true)
-        SetVehicleUndriveable(vehicle, false)
-    end
 end
