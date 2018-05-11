@@ -153,23 +153,26 @@ end
 
 -- DO NOT REMOVE --
 
-local CurrentVersion = '1.3'
+local CurrentVersion = '1.4'
+local GithubResourceName = 'roleplay-toolbox'
 
 PerformHttpRequest('https://raw.githubusercontent.com/aka-lucifer/roleplay-toolbox-resources/master/VERSION', function(Error, NewestVersion, Header)
+	PerformHttpRequest('' .. GithubResourceName .. '/CHANGES', function(Error, Changes, Header)
 		print('\n')
 		print('--------------------------------------------------------------------')
 		print('Roleplay Toolbox')
 		print('')
-		print('Current Version: ' .. CurrentVersion .. '')
-		print('Newest Version: ' .. NewestVersion .. '')
-		print('--------------------------------------------------------------------')
+		print('Current Version: ' .. CurrentVersion)
+		print('Newest Version: ' .. NewestVersion)
+		print('')
 		if CurrentVersion ~= NewestVersion then
-			print('Server Toolbox is outdated, please check the Topic for the newest Version! #####')
-			print('')
-			print('CHANGES:\n' .. Changes)
-		else
-			print('Roleplay Toolbox is up to date!')
+			print('-- Outdated')
+			print('-- Check the Topic')
+			print('-- For the newest Version!')
 			print('--------------------------------------------------------------------')
+		else
+			print('-- Up to date!')
+			print('--------------')
 		end
 		print('\n')
 	end)
