@@ -87,7 +87,7 @@ RegisterNUICallback( "ButtonClick", function( data, cb )
   -- [Vehicle]
     	
 	elseif ( data == "engine" ) then 
-		TriggerEvent( "Engine" )
+		EngineToggle()
 	elseif ( data == "trunk" ) then 
 		TriggerEvent( "openTrunk" )
 	elseif ( data == "hood" ) then 
@@ -2147,7 +2147,7 @@ local ped = GetPlayerPed( -1 )
 end )
 
 -- Civ Emotes End --
-
+--[[
 RegisterNetEvent('Engine')
  
 local vehicles = {}
@@ -2190,7 +2190,8 @@ AddEventHandler('Engine', function()
         end
     end
 end)
- 
+ --]]
+
 function drawNotification(text) --Just Don't Edit!
     SetNotificationTextEntry("STRING")
     AddTextComponentString(text)
@@ -2210,4 +2211,16 @@ function table.contains(table, element)
     end
   end
   return false
+end
+
+function EngineToggle()
+    player = GetPlayerPed(-1)
+    local vehicle = GetVehiclePedIsIn(player, false)
+    if IsVehicleEngineOn(vehicle) then
+        SetVehicleEngineOn(vehicle, false, false, true)
+        SetVehicleUndriveable(vehicle, true)
+    else
+        SetVehicleEngineOn(vehicle, true, false, true)
+        SetVehicleUndriveable(vehicle, false)
+    end
 end
