@@ -160,15 +160,13 @@ PerformHttpRequest('https://raw.githubusercontent.com/aka-lucifer/roleplay-toolb
 	PerformHttpRequest('' .. GithubResourceName .. '/CHANGES', function(Error, Changes, Header)
 		print('\n')
 		print('--------------------------------------------------------------------')
+		print('')
 		print('Roleplay Toolbox')
 		print('')
 		print('Current Version: ' .. CurrentVersion)
 		print('Newest Version: ' .. NewestVersion)
 		print('')
 		if CurrentVersion ~= NewestVersion then
-			print('-- Outdated')
-			print('-- Check the Topic')
-			print('-- For the newest Version!')
 			print('--------------------------------------------------------------------')
 		else
 			print('-- Up to date!')
