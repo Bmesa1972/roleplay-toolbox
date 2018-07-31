@@ -1,3 +1,9 @@
+-----------------------
+-- Lucifer 
+-- Copyrighted © Lucifer 2018
+-- Do not redistribute or edit in any way without my permission.
+----------------------
+
 --[[------------------------------------------------------------------------
 
 	ActionMenu 
@@ -6,8 +12,29 @@
 
 ------------------------------------------------------------------------]]--
 
+--[[------------------------------------------------------------------------
+    Resource Rename Fix -- (Via Rhys19)
+------------------------------------------------------------------------]]--
+Citizen.CreateThread( function()
+    Citizen.Wait( 1000 )
+    local resourceName = GetCurrentResourceName()
+    SendNUIMessage( { resourcename = resourceName } )
+end )
+
 -- Define the variable used to open/close the menu 
 local menuEnabled = false 
+
+local leoSkins = {
+	"s_m_y_cop_01",
+    "s_m_y_hwaycop_01",
+    "s_m_y_sheriff_01",
+    "s_m_y_swat_01",
+}
+
+local fdSkins = {
+    "s_m_y_fireman_01",
+	"s_m_m_paramedic_01",
+}
 
 --[[------------------------------------------------------------------------
 	ActionMenu Toggle
@@ -48,18 +75,74 @@ end
 ------------------------------------------------------------------------]]--
 RegisterNUICallback( "ButtonClick", function( data, cb ) 
 
+	-- [Whitelisting]
+
+    if ( data == "cuff") and not IsAllowedPed("leo") then
+	    drawNotification("~r~You are not a Police officer!")
+    elseif ( data == "uncuff") and not IsAllowedPed("leo") then
+	    drawNotification("~r~You are not a Police officer!")
+    elseif ( data == "drag") and not IsAllowedPed("leo") then
+	    drawNotification("~r~You are not a Police officer!")
+    elseif ( data == "seat") and not IsAllowedPed("leo") then
+	    drawNotification("~r~You are not a Police officer!")
+    elseif ( data == "unseat") and not IsAllowedPed("leo") then
+	    drawNotification("~r~You are not a Police officer!")
+    elseif ( data == "radar") and not IsAllowedPed("leo") then
+		drawNotification("~r~You are not a Police officer!")
+	elseif ( data == "radar") and not IsAllowedPed("leo") then
+		drawNotification("~r~You are not a Police officer!")
+	elseif ( data == "radar") and not IsAllowedPed("leo") then
+		drawNotification("~r~You are not a Police officer!")
+	elseif ( data == "loadout") and not IsAllowedPed("leo") then
+		drawNotification("~r~You are not a Police officer!")
+	elseif ( data == "swat") and not IsAllowedPed("leo") then
+		drawNotification("~r~You are not a Police officer!")
+	elseif ( data == "hat") and not IsAllowedPed("leo") then
+		drawNotification("~r~You are not a Police officer!")
+	elseif ( data == "glasses") and not IsAllowedPed("leo") then
+		drawNotification("~r~You are not a Police officer!")
+
+	elseif ( data == "seat2") and not IsAllowedPed("fd") then
+		drawNotification("~r~You are not Fire or EMS!")
+	elseif ( data == "unseat2") and not IsAllowedPed("fd") then
+		drawNotification("~r~You are not Fire or EMS!")
+	elseif ( data == "fire") and not IsAllowedPed("fd") then
+		drawNotification("~r~You are not Fire or EMS!")
+	elseif ( data == "medicloadout") and not IsAllowedPed("fd") then
+		drawNotification("~r~You are not Fire or EMS!")
+	elseif ( data == "hat") and not IsAllowedPed("fd") then
+		drawNotification("~r~You are not Fire or EMS!")
+	elseif ( data == "mask") and not IsAllowedPed("fd") then
+		drawNotification("~r~You are not Fire or EMS!")
+	elseif ( data == "gloves") and not IsAllowedPed("fd") then
+		drawNotification("~r~You are not Fire or EMS!")
+	elseif ( data == "glasses") and not IsAllowedPed("fd") then
+		drawNotification("~r~You are not Fire or EMS!")
+
+
    -- [Civ Toolbox]
 
-	if ( data == "hands" ) then 
-		TriggerEvent( 'Handsup' )
+    elseif ( data == "hands" ) then 
+		TriggerEvent( 'Handsup2' )
 	elseif ( data == "kneel" ) then 
-		TriggerEvent( 'KneelHU')
+		TriggerEvent( 'KneelHU2')
+	elseif ( data == "dropweap") then
+		ToggleActionMenu()
+		return
+		dropweap()
 
    -- [Civ Toolbox]
 
    -- [LEO Toolbox]
+
 	elseif ( data == "cuff") then
-		cuff()
+	    ToggleActionMenu()
+		return
+		TriggerEvent('cuff')
+	elseif ( data == "uncuff") then
+	    ToggleActionMenu()
+		return
+		TriggerEvent('uncuff')
 	elseif ( data == "drag") then
 		ToggleActionMenu()
 		return
@@ -74,15 +157,19 @@ RegisterNUICallback( "ButtonClick", function( data, cb )
 		UnseatVehicle()
 	elseif ( data == "radar" ) then 
         TriggerEvent( 'wk:radarRC' )
-	elseif ( data == "radio" ) then
-	    TriggerEvent( 'Radio' )
-	elseif ( data == "dspikes" ) then 
-	    TriggerEvent( 'c_deleteSpike' )
-	elseif ( data == "dropweap") then
-    ToggleActionMenu()
-		return
-		     dropweap()
+
 	-- [LEO Toolbox]
+
+	-- [Fire/EMS Toolbox]
+
+    elseif ( data == "seat2") then
+	    ToggleActionMenu()
+	    return
+	    PutInVehicle()
+    elseif ( data == "unseat2") then
+	    ToggleActionMenu()
+	    return
+	    UnseatVehicle()
 
   -- [Vehicle]
     	
@@ -104,123 +191,233 @@ RegisterNUICallback( "ButtonClick", function( data, cb )
 		TriggerEvent( "frontWindow" )
 	elseif ( data == "rwindows" ) then 
 		TriggerEvent( "rearWindow" )
+	elseif ( data == "save" ) then
+	    TriggerEvent( 'save' )
+	elseif ( data == "lock" ) then
+	    TriggerEvent( 'lock' )
+	elseif ( data == "fix" ) then
+	    TriggerEvent( 'fixCar' )
 	elseif ( data == "delete" ) then
-	    TriggerEvent( 'wk:deleteVehicle' )
+	    TriggerEvent( 'deleteVehicle' )
 
   -- [Vehicle]
 
    -- [Adverts]
 
    elseif ( data == "ad1" ) then 
+	    ToggleActionMenu()
+	    return
 		TriggerEvent( "ad1" )
 	elseif ( data == "ad2" ) then 
+	    ToggleActionMenu()
+	    return
 		TriggerEvent( "ad2" )
 	elseif ( data == "ad3" ) then 
+	    ToggleActionMenu()
+	    return
 		TriggerEvent( "ad3" )
 	elseif ( data == "ad4" ) then 
+	    ToggleActionMenu()
+	    return
 		TriggerEvent( "ad4" )
 	elseif ( data == "ad5" ) then 
+	    ToggleActionMenu()
+	    return
 		TriggerEvent( "ad5" )
 	elseif ( data == "ad6" ) then 
+	    ToggleActionMenu()
+	    return
 		TriggerEvent( "ad6" )
 	elseif ( data == "ad7" ) then 
+	    ToggleActionMenu()
+	    return
 		TriggerEvent( "ad7" )
 	elseif ( data == "ad8" ) then 
+	    ToggleActionMenu()
+	    return
 		TriggerEvent( "ad8" )
 	elseif ( data == "ad9" ) then 
+	    ToggleActionMenu()
+	    return
 		TriggerEvent( "ad9" )
 	elseif ( data == "ad10" ) then 
+	    ToggleActionMenu()
+	    return
 		TriggerEvent( "ad10" )
 	elseif ( data == "ad11" ) then 
+	    ToggleActionMenu()
+	    return
 		TriggerEvent( "ad11" )
 	elseif ( data == "ad12" ) then 
+	    ToggleActionMenu()
+	    return
 		TriggerEvent( "ad12" )
 	elseif ( data == "ad13" ) then 
+	    ToggleActionMenu()
+	    return
 		TriggerEvent( "ad13" )
 	elseif ( data == "ad14" ) then 
+	    ToggleActionMenu()
+	    return
 		TriggerEvent( "ad14" )
 	elseif ( data == "ad15" ) then 
+	    ToggleActionMenu()
+	    return
 		TriggerEvent( "ad15" )
 	elseif ( data == "ad16" ) then 
+	    ToggleActionMenu()
+	    return
 		TriggerEvent( "ad16" )
 	elseif ( data == "ad17" ) then 
+	    ToggleActionMenu()
+	    return
 		TriggerEvent( "ad17" )
 	elseif ( data == "ad18" ) then 
+	    ToggleActionMenu()
+	    return
 		TriggerEvent( "ad18" )
 	elseif ( data == "ad19" ) then 
+	    ToggleActionMenu()
+	    return
 		TriggerEvent( "ad19" )
 	elseif ( data == "ad20" ) then 
+	    ToggleActionMenu()
+	    return
 		TriggerEvent( "ad20" )
 	elseif ( data == "ad21" ) then 
+	    ToggleActionMenu()
+	    return
 		TriggerEvent( "ad21" )
-    
+	elseif ( data == "ad22" ) then 
+	    ToggleActionMenu()
+	    return
+		TriggerEvent( "ad22" )
+
    -- [Adverts]
 
    -- [Emotes]
 
-    elseif ( data == "radiogun" ) then 
+    elseif ( data == "radio" ) then
+	    ToggleActionMenu()
+	    return
+	    TriggerEvent( 'Radio' )
+	elseif ( data == "radiogun" ) then 
+		ToggleActionMenu()
+	    return
 		TriggerEvent( "RadioGunPoint" )
 	elseif ( data == "stance" ) then 
+		ToggleActionMenu()
+	    return
 		TriggerEvent( "Stance" )
 	elseif ( data == "investigate" ) then 
+		ToggleActionMenu()
+	    return
 		TriggerEvent( "Investigate" )
 	elseif ( data == "holster" ) then 
+		ToggleActionMenu()
+	    return
 	    TriggerEvent( 'Holster' )
-    elseif ( data == "citation" ) then 
+	elseif ( data == "citation" ) then 
+		ToggleActionMenu()
+	    return
 	    TriggerEvent( 'Citation' )
 	elseif ( data == "notes" ) then 
+		ToggleActionMenu()
+	    return
 	    TriggerEvent( 'Notes' )
 	elseif ( data == "traffic" ) then 
+		ToggleActionMenu()
+	    return
 	    TriggerEvent( 'Traffic' )
 	elseif ( data == "medic" ) then 
+		ToggleActionMenu()
+	    return
 	    TriggerEvent( 'Medic' )
 	elseif ( data == "weld" ) then 
+		ToggleActionMenu()
+	    return
 	    TriggerEvent( 'Weld' )
 	elseif ( data == "smoke" ) then 
+		ToggleActionMenu()
+	    return
 	    TriggerEvent( 'Smoke' )
 	elseif ( data == "party" ) then 
+		ToggleActionMenu()
+	    return
 	    TriggerEvent( 'Party' )
 	elseif ( data == "drink" ) then 
+		ToggleActionMenu()
+	    return
 	    TriggerEvent( 'Drink' )
 	elseif ( data == "pushups" ) then 
+		ToggleActionMenu()
+	    return
 	    TriggerEvent( 'Pushups' )
 	elseif ( data == "phone" ) then 
+		ToggleActionMenu()
+	    return
 	    TriggerEvent( 'Phone' )
 	elseif ( data == "injured" ) then 
+		ToggleActionMenu()
+	    return
 	    TriggerEvent( 'Injured' )
 	elseif ( data == "weed" ) then 
+		ToggleActionMenu()
+	    return
 	    TriggerEvent( 'Weed' )
 	elseif ( data == "coffee" ) then 
+		ToggleActionMenu()
+	    return
 	    TriggerEvent( 'Coffee' )
 	elseif ( data == "photo" ) then 
+		ToggleActionMenu()
+	    return
 	    TriggerEvent( 'Photo' )
 	elseif ( data == "binoculars" ) then 
+		ToggleActionMenu()
+	    return
 	    TriggerEvent( 'Binoculars' )
 	elseif ( data == "situps" ) then 
+		ToggleActionMenu()
+	    return
 	    TriggerEvent( 'Situps' )
 	elseif ( data == "film" ) then 
+		ToggleActionMenu()
+	    return
 	    TriggerEvent( 'Film' )
 	elseif ( data == "weights" ) then 
+		ToggleActionMenu()
+	    return
 	    TriggerEvent( 'Weights' )
 	elseif ( data == "flex" ) then 
+		ToggleActionMenu()
+	    return
 	    TriggerEvent( 'Flex' )
 	elseif ( data == "cancel" ) then 
+		ToggleActionMenu()
+	    return
 	    TriggerEvent( 'cancelEmote' )
 
    -- [Emotes]
 
    -- [Outfits]
 
-    elseif ( data == "lspd" ) then 
-		TriggerEvent( "lspdOutfit" )
-    elseif ( data == "bcso" ) then 
-		TriggerEvent( "bcsoOutfit" )
-    elseif ( data == "sahp" ) then 
-		TriggerEvent( "sahpOutfit" )
+	elseif ( data == "loadout" ) then 
+		leoLoadout()
+	elseif ( data == "swat" ) then 
+		swatLoadout()
     elseif ( data == "fire" ) then 
-		TriggerEvent( "fireOutfit" )
-	elseif ( data == "medicoutfit" ) then 
-		TriggerEvent( "medicOutfit" )
+		fireLoadout()
+	elseif ( data == "medicloadout" ) then 
+		emsLoadout()
+	elseif ( data == "hat" ) then 
+		TriggerEvent("haton")
+	elseif ( data == "mask" ) then 
+		TriggerEvent("maskon")
+	elseif ( data == "gloves" ) then 
+		TriggerEvent("gloveson")
+	elseif ( data == "glasses" ) then 
+		TriggerEvent("glasseson")
 
 	elseif ( data == "exit" ) then 
 		-- We toggle the ActionMenu and return here, otherwise the function 
@@ -232,6 +429,26 @@ RegisterNUICallback( "ButtonClick", function( data, cb )
 	-- This will only be called if any button other than the exit button is pressed
 --	ToggleActionMenu() Uncomment this if you want the menu to close, after selecting an option.
 end )
+
+function IsAllowedPed(class)
+	success = false
+	if class == "leo" then
+		for i=1,#leoSkins do
+			if GetEntityModel(PlayerPedId()) == GetHashKey(leoSkins[i]) then
+				success = true
+			end
+		end
+	elseif class == "fd" then
+		for i=1,#fdSkins do
+			if GetEntityModel(PlayerPedId()) == GetHashKey(fdSkins[i]) then
+				success = true
+			end
+		end
+	end
+
+	return success
+end
+
 
 
 --[[------------------------------------------------------------------------
@@ -266,80 +483,75 @@ Citizen.CreateThread( function()
 	end 
 end )
 
-function chatPrint( msg )
-	TriggerEvent( 'chatMessage', "Roleplay Toolbox", { 255, 25, 25 }, msg )
-end
+---------------- Put your hands up ----------------
 
---Hands Up Start
-
-RegisterNetEvent("Handsup")
-AddEventHandler("Handsup", function()
+RegisterNetEvent("Handsup2")
+AddEventHandler("Handsup2", function()
 	local lPed = GetPlayerPed(-1)
 	if DoesEntityExist(lPed) then
 		Citizen.CreateThread(function()
-			RequestAnimDict("random@mugging3")
-			while not HasAnimDictLoaded("random@mugging3") do
+			RequestAnimDict("random@arrests")
+			while not HasAnimDictLoaded("random@arrests") do
 				Citizen.Wait(100)
 			end
-			
-			if IsEntityPlayingAnim(lPed, "random@mugging3", "handsup_standing_base", 3) then
+
+			if IsEntityPlayingAnim(lPed, "random@arrests", "idle_2_hands_up", 3) then
 				ClearPedSecondaryTask(lPed)
 				SetEnableHandcuffs(lPed, false)
 			else
-				TaskPlayAnim(lPed, "random@mugging3", "handsup_standing_base", 8.0, -8, -1, 49, 0, 0, 0, 0)
+				TaskPlayAnim(lPed, "random@arrests", "idle_2_hands_up", 8.0, -8, -1, 49, 0, 0, 0, 0)
 				SetEnableHandcuffs(lPed, true)
-			end		
+			end
 		end)
 	end
 end)
 
---Hands Up End
+---------------- Put your hands up ----------------
 
---Kneel Handsup Start
- 
+--------------- Kneel with hands up ----------------
+
 function loadAnimDict( dict )
     while ( not HasAnimDictLoaded( dict ) ) do
         RequestAnimDict( dict )
         Citizen.Wait( 5 )
     end
-end
- 
-RegisterNetEvent( 'KneelHU' )
-TriggerEvent( 'KneelHU' )
-AddEventHandler( 'KneelHU', function()
+end 
+
+RegisterNetEvent( 'KneelHU2' )
+AddEventHandler( 'KneelHU2', function()
     local player = GetPlayerPed( -1 )
-    if ( DoesEntityExist( player ) and not IsEntityDead( player )) then
+	if ( DoesEntityExist( player ) and not IsEntityDead( player )) then 
         loadAnimDict( "random@arrests" )
-        loadAnimDict( "random@arrests@busted" )
-        if ( IsEntityPlayingAnim( player, "random@arrests@busted", "idle_a", 3 ) ) then
-            TaskPlayAnim( player, "random@arrests@busted", "exit", 8.0, 1.0, -1, 2, 0, 0, 0, 0 )
-            Wait (3000)
+		loadAnimDict( "random@arrests@busted" )
+		if ( IsEntityPlayingAnim( player, "random@arrests", "kneeling_arrest_idle", 3 ) ) then 
+			TaskPlayAnim( player, "random@arrests@busted", "exit", 8.0, 1.0, -1, 2, 0, 0, 0, 0 )
+			Wait (3000)
             TaskPlayAnim( player, "random@arrests", "kneeling_arrest_get_up", 8.0, 1.0, -1, 128, 0, 0, 0, 0 )
         else
             TaskPlayAnim( player, "random@arrests", "idle_2_hands_up", 8.0, 1.0, -1, 2, 0, 0, 0, 0 )
-            Wait (4000)
+			Wait (4000)
             TaskPlayAnim( player, "random@arrests", "kneeling_arrest_idle", 8.0, 1.0, -1, 2, 0, 0, 0, 0 )
-            Wait (500)
-            TaskPlayAnim( player, "random@arrests@busted", "enter", 8.0, 1.0, -1, 2, 0, 0, 0, 0 )
-            Wait (1000)
-            TaskPlayAnim( player, "random@arrests@busted", "idle_a", 8.0, 1.0, -1, 9, 0, 0, 0, 0 )
-        end    
+			--[[Wait (500)
+			TaskPlayAnim( player, "random@arrests@busted", "enter", 8.0, 1.0, -1, 2, 0, 0, 0, 0 )
+			Wait (1000)
+			TaskPlayAnim( player, "random@arrests@busted", "idle_a", 8.0, 1.0, -1, 9, 0, 0, 0, 0 )--]]
+        end     
     end
 end )
- 
+
 Citizen.CreateThread(function()
-    while true do
-        Citizen.Wait(0)
-        if IsEntityPlayingAnim(GetPlayerPed(PlayerId()), "random@arrests@busted", "idle_a", 3) then
-            DisableControlAction(1, 140, true)
-            DisableControlAction(1, 141, true)
-            DisableControlAction(1, 142, true)
-            DisableControlAction(0,21,true)
-        end
-    end
+	while true do
+		Citizen.Wait(0)
+		if IsEntityPlayingAnim(GetPlayerPed(PlayerId()), "random@arrests@busted", "idle_a", 3) then
+			DisableControlAction(1, 140, true)
+			DisableControlAction(1, 141, true)
+			DisableControlAction(1, 142, true)
+			DisableControlAction(0,21,true)
+		end
+	end
 end)
 
---Kneel Handsup End
+---------------- Kneel with hands up ----------------
 
 
 function drawNotification(text) --Just Don't Edit!
@@ -685,77 +897,174 @@ end
 
 -------------------------------------]
 
+---------------- LEO Functions ----------------
+
+function leoLoadout()
+    Citizen.CreateThread(function()
+		local ped = GetPlayerPed(-1)
+	    GiveWeaponToPed(ped, 1593441988, 1000, true, false)
+        GiveWeaponComponentToPed(ped, 1593441988, 899381934)
+        GiveWeaponToPed(ped, 911657153, 1000, true, false)
+        GiveWeaponToPed(ped, 1737195953, 1000, true, false)
+        GiveWeaponToPed(ped, 2343591895, 1000, true, false)
+    end)
+end
+
+function swatLoadout()
+    Citizen.CreateThread(function()
+        local swatModel = GetHashKey("s_m_y_swat_01")
+        RequestModel(swatModel)
+        while not HasModelLoaded(swatModel) do
+            Wait(0)
+        end
+        if HasModelLoaded(swatModel) then
+            SetPlayerModel(PlayerId(), swatModel)
+        else
+	   drawNotification("The model could not load - if you see this contact development.")
+		end
+		local ped = GetPlayerPed(-1)
+	    GiveWeaponToPed(ped, 1593441988, 1000, true, false)
+        GiveWeaponComponentToPed(ped, 1593441988, 899381934)
+        GiveWeaponToPed(ped, 911657153, 1000, true, false)
+        GiveWeaponToPed(ped, 1737195953, 1000, true, false)
+        GiveWeaponToPed(ped, 2343591895, 1000, true, false)
+	    GiveWeaponToPed(ped, 4256991824, 1000, true ,false)
+	    GiveWeaponToPed(ped, 2210333304, 1000, true ,false)
+	    GiveWeaponComponentToPed(ped, 2210333304, 0xC164F53)
+	    GiveWeaponComponentToPed(ped, 2210333304, 0x7BC4CDDC)
+	    GiveWeaponToPed(ped, 487013001, 1000, true ,false)
+	    GiveWeaponComponentToPed(ped, 487013001, 0x7BC4CDDC)
+	    GiveWeaponToPed(ped, 736523883, 1000, true ,false)
+	    GiveWeaponToPed(ped, 1305664598, 1000, true ,false)
+    end)
+end
+
+function fireLoadout()
+    Citizen.CreateThread(function()
+		local ped = PlayerPedId()
+	    GiveWeaponToPed(PlayerPedId(), GetHashKey("WEAPON_FLASHLIGHT"), 1000, false)
+	    GiveWeaponToPed(PlayerPedId(), GetHashKey("WEAPON_STUNGUN"), 1000, false)
+		GiveWeaponToPed(PlayerPedId(), GetHashKey("WEAPON_FIREEXTINGUISHER"), 1000, false)
+		GiveWeaponToPed(PlayerPedId(), 1233104067, 1000, false)
+		GiveWeaponToPed(PlayerPedId(), GetHashKey("WEAPON_HATCHET"), 1000, false)
+    end)
+end
+
+function emsLoadout()
+    Citizen.CreateThread(function()
+		local ped = PlayerPedId()
+	    GiveWeaponToPed(PlayerPedId(), GetHashKey("WEAPON_FLASHLIGHT"), 1000, false)
+	    GiveWeaponToPed(PlayerPedId(), 1233104067, 1000, false)
+    end)
+end
+
+function GetPlayers()
+    local players = {}
+
+    for i = 0, 31 do
+        if NetworkIsPlayerActive(i) then
+            table.insert(players, i)
+        end
+    end
+
+    return players
+end
+
+function GetClosestPlayer()
+	local players = GetPlayers()
+	local closestDistance = -1
+	local closestPlayer = -1
+	local ply = GetPlayerPed(-1)
+	local plyCoords = GetEntityCoords(ply, 0)
+
+	for index,value in ipairs(players) do
+		local target = GetPlayerPed(value)
+		if(target ~= ply) then
+			local targetCoords = GetEntityCoords(GetPlayerPed(value), 0)
+			local distance = Vdist(targetCoords["x"], targetCoords["y"], targetCoords["z"], plyCoords["x"], plyCoords["y"], plyCoords["z"])
+			if(closestDistance == -1 or closestDistance > distance) then
+				closestPlayer = value
+				closestDistance = distance
+			end
+		end
+	end
+
+	return closestPlayer, closestDistance
+end
+
+function drawNotification(text)
+	SetNotificationTextEntry("STRING")
+	AddTextComponentString(text)
+	DrawNotification(false, false)
+end
+
 local handCuffed = false
 
 local drag = false
 local playerStillDragged = false
 local officerDrag = -1
+local revive = false
 
-function cuff()
+RegisterNetEvent('cuff')
+AddEventHandler('cuff',function()
 	local t, distance = GetClosestPlayer()
 	if(distance ~= -1 and distance < 3) then
-		TriggerServerEvent("wk_actionmenu:cuffGranted", GetPlayerServerId(t))
+		TriggerServerEvent("cuffGranted", GetPlayerServerId(t))
 	else
-	drawNotification("Cuffed player")
-	end
-end
-
---[[
-function handcuff()
-	local t, distance = GetClosestPlayer()
-	if(distance ~= -1 and distance < 3) then
-		local lPed = GetPlayerPed(-1)
-	if DoesEntityExist(lPed) then
-		if IsEntityPlayingAnim(lPed, "mp_arresting", "idle", 3) then
-			ClearPedSecondaryTask(lPed)
-			SetEnableHandcuffs(lPed, false)
-			SetCurrentPedWeapon(lPed, GetHashKey("WEAPON_UNARMED"), true)
-			handcuff = false
-		else
-			RequestAnimDict("mp_arresting")
-			while not HasAnimDictLoaded("mp_arresting") do
-				Citizen.Wait(100)
-			end
-
-			TaskPlayAnim(lPed, "mp_arresting", "idle", 8.0, -8, -1, 49, 0, 0, 0, 0)
-			SetEnableHandcuffs(lPed, true)
-			SetCurrentPedWeapon(lPed, GetHashKey("WEAPON_UNARMED"), true)
-			handcuff = true
-		end
+    	drawNotification("There is no nearby player to cuff!")
 	end
 end)
---]]
 
-RegisterNetEvent('wk_actionmenu:getArrested')
-AddEventHandler('wk_actionmenu:getArrested', function()
-	handCuffed = not handCuffed
-	if(handCuffed) then
-drawNotification("player cuffed")
+RegisterNetEvent('uncuff')
+AddEventHandler('uncuff',function()
+	local t, distance = GetClosestPlayer()
+	if(distance ~= -1 and distance < 3) then
+		TriggerServerEvent("uncuffGranted", GetPlayerServerId(t))
 	else
-		drawNotification("Player uncuffed")
+    	drawNotification("There is no nearby player to uncuff!")
 	end
+end)
+
+RegisterNetEvent('getCuffed')
+AddEventHandler('getCuffed', function()
+	local pP = GetPlayerPed(-1)
+	RequestAnimDict('mp_arresting')
+	while not HasAnimDictLoaded('mp_arresting') do
+		Citizen.Wait(100)
+	end
+	TaskPlayAnim(pP, 'mp_arresting', 'idle', 8.0, -8, -1, 49, 0, 0, 0, 0)
+	SetEnableHandcuffs(pP, true)
+	SetCurrentPedWeapon(pP, GetHashKey('WEAPON_UNARMED'), true)
+	DisablePlayerFiring(pP, true)
+	FreezeEntityPosition(pP, true)
+	DisableControlAction(0,32,true) -- W
+	DisableControlAction(0,33,true) -- S
+    DisableControlAction(0,34,true) -- A
+    DisableControlAction(0,35,true) -- D
+	handcuffed = true
+end)
+
+RegisterNetEvent('getUncuffed')
+AddEventHandler('getUncuffed', function()
+	local pP = GetPlayerPed(-1)
+	ClearPedSecondaryTask(pP)
+	SetEnableHandcuffs(pP, false)
+	SetCurrentPedWeapon(pP, GetHashKey('WEAPON_UNARMED'), true)
+	FreezeEntityPosition(pP, false)
+	handcuffed = false
 end)
 
 Citizen.CreateThread(function()
     while true do
         Citizen.Wait(10)
 		
-				
-		if (handCuffed) then
-			RequestAnimDict('mp_arresting')
-
-			while not HasAnimDictLoaded('mp_arresting') do
-				Citizen.Wait(0)
+		if IsEntityPlayingAnim(GetPlayerPed(PlayerId()), "mp_arresting", "idle", 3) then
+			DisableControlAction(1, 140, true)
+			DisableControlAction(1, 141, true)
+			DisableControlAction(1, 142, true)
+			if IsPedInAnyVehicle(GetPlayerPed(PlayerId()), false) then
+				DisableControlAction(0, 59, true)
 			end
-
-			local myPed = PlayerPedId(-1)
-			local animation = 'idle'
-			local flags = 49
-			
-			while(IsPedBeingStunned(myPed, 0)) do
-				ClearPedTasksImmediately(myPed)
-			end
-			TaskPlayAnim(myPed, 'mp_arresting', animation, 8.0, -8, -1, flags, 0, 0, 0, 0)
 		end
 
 		if drag then
@@ -773,7 +1082,7 @@ Citizen.CreateThread(function()
 			local myPed = PlayerPedId(-1)
 			local animation = 'idle'
 			local flags = 49
-			
+
 			while(IsPedBeingStunned(myPed, 0)) do
 				ClearPedTasksImmediately(myPed)
 			end
@@ -785,26 +1094,21 @@ Citizen.CreateThread(function()
 				playerStillDragged = false
 			end
 		end
+		
 end
 end)
-
-
------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-
 
 function DragPlayer()
 	local t, distance = GetClosestPlayer()
 	if(distance ~= -1 and distance < 3) then
-		TriggerServerEvent("wk_actionmenu:dragRequest", GetPlayerServerId(t))
+		TriggerServerEvent("dragRequest", GetPlayerServerId(t))
 	else
-		drawNotification("Dragging player")
+    	drawNotification("There is no nearby player to drag!")
 	end
 end
 
-
-RegisterNetEvent('wk_actionmenu:toggleDrag')
-AddEventHandler('wk_actionmenu:toggleDrag', function(t)
+RegisterNetEvent('toggleDrag')
+AddEventHandler('toggleDrag', function(t)
 
 		drag = not drag
 		officerDrag = t
@@ -815,31 +1119,25 @@ Citizen.CreateThread(function()
 		if drag then
 			local ped = GetPlayerPed(GetPlayerFromServerId(playerPedDragged))
 			plyPos = GetEntityCoords(ped,  true)
-			SetEntityCoords(ped, plyPos.x, plyPos.y, plyPos.z)    
+			SetEntityCoords(ped, plyPos.x, plyPos.y, plyPos.z)
 		end
 		Citizen.Wait(1000)
 	end
 end)
 
-
-
------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-
-
 function PutInVehicle()
 	local t, distance = GetClosestPlayer()
 	if(distance ~= -1 and distance < 3) then
 		local v = GetVehiclePedIsIn(GetPlayerPed(-1), true)
-		TriggerServerEvent("wk_actionmenu:forceEnterAsk", GetPlayerServerId(t), v)
+		TriggerServerEvent("forceEnterAsk", GetPlayerServerId(t), v)
 	else
-		drawNotification("Put player in vehicle")
+    	drawNotification("There is no nearby player to seat!")
 	end
 end
 
-RegisterNetEvent('wk_actionmenu:forcedEnteringVeh')
-AddEventHandler('wk_actionmenu:forcedEnteringVeh', function(veh)
-	
+RegisterNetEvent('forcedEnteringVeh')
+AddEventHandler('forcedEnteringVeh', function(veh)
+
 		local pos = GetEntityCoords(GetPlayerPed(-1))
 		local entityWorld = GetOffsetFromEntityInWorldCoords(GetPlayerPed(-1), 0.0, 20.0, 0.0)
 
@@ -851,27 +1149,184 @@ AddEventHandler('wk_actionmenu:forcedEnteringVeh', function(veh)
 		end
 end)
 
-------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
 function UnseatVehicle()
 	local t, distance = GetClosestPlayer()
 	if(distance ~= -1 and distance < 3) then
-		TriggerServerEvent("wk_actionmenu:confirmUnseat", GetPlayerServerId(t))
+		TriggerServerEvent("confirmUnseat", GetPlayerServerId(t))
 	else
-		drawNotification("Unseated player from vehicle")
+    	drawNotification("There is no nearby player to unseat!")
 	end
 end
 
-RegisterNetEvent('wk_actionmenu:unseatme')
-AddEventHandler('wk_actionmenu:unseatme', function(t)
-	local ped = GetPlayerPed(t)        
+RegisterNetEvent('unseatme')
+AddEventHandler('unseatme', function(t)
+	local ped = GetPlayerPed(t)
 	ClearPedTasksImmediately(ped)
 	plyPos = GetEntityCoords(GetPlayerPed(-1),  true)
 	local xnew = plyPos.x+2
 	local ynew = plyPos.y+2
-   
+
 	SetEntityCoords(GetPlayerPed(-1), xnew, ynew, plyPos.z)
 end)
+
+local hwaycop = GetHashKey("s_m_y_hwaycop_01")
+local cop = GetHashKey("s_m_y_cop_01")
+local sheriff = GetHashKey("s_m_y_sheriff_01")
+local fireman = GetHashKey("s_m_y_fireman_01")
+local medic = GetHashKey("s_m_m_paramedic_01")
+
+
+hat = false
+
+  RegisterNetEvent( 'haton' )
+AddEventHandler( 'haton', function()
+	hat = not hat
+	if(GetEntityModel(PlayerPedId()) == hwaycop) then
+		if hat then
+			SetPedPropIndex(PlayerPedId(), 0, 01, 0, 2)
+		else
+			ClearPedProp(PlayerPedId(), 0)
+		end
+	elseif(GetEntityModel(PlayerPedId()) == cop) then
+		if hat then
+			SetPedPropIndex(PlayerPedId(), 0, 0, 0, 2)
+		else
+			ClearPedProp(PlayerPedId(), 0)
+		end
+	elseif(GetEntityModel(PlayerPedId()) == sheriff) then
+		if hat then
+			SetPedPropIndex(PlayerPedId(), 0, 0, 0, 2)
+		else
+			ClearPedProp(PlayerPedId(), 0)
+		end
+	elseif (GetEntityModel(PlayerPedId()) == fireman) then
+		if hat then
+			SetPedPropIndex(PlayerPedId(), 0, 0, 0, 2)
+		else
+			ClearPedProp(PlayerPedId(), 0)
+		end
+	elseif (GetEntityModel(PlayerPedId()) == medic) then
+		if hat then
+			SetPedPropIndex(PlayerPedId(), 0, 0, 0, 2)
+		else
+			ClearPedProp(PlayerPedId(), 0)
+		end
+	end
+end)
+
+vest = false
+	RegisterNetEvent('veston')
+AddEventHandler('veston', function()
+	vest = not vest
+	if (GetEntityModel(PlayerPedId()) == hwaycop) then
+		if vest then
+			SetPedComponentVariation(PlayerPedId(), 8, 1, 1, 1)
+		else
+			SetPedDefaultComponentVariation(PlayerPedId())
+		end
+	elseif (GetEntityModel(PlayerPedId()) == cop) then
+		if vest then
+			SetPedComponentVariation(PlayerPedId(), 9, 2, 0, 1)
+		else
+			SetPedDefaultComponentVariation(PlayerPedId())
+		end
+	elseif (GetEntityModel(PlayerPedId()) == sheriff) then
+		if vest then
+			SetPedComponentVariation(PlayerPedId(), 9, 2, 0, 1)
+		else
+			SetPedDefaultComponentVariation(PlayerPedId())
+		end
+	end
+end)
+
+mask = false
+
+  RegisterNetEvent( 'maskon' )
+AddEventHandler( 'maskon', function()
+	    if (GetEntityModel(PlayerPedId()) == fireman) then
+		mask = not mask
+		if mask then
+			SetPedComponentVariation(PlayerPedId(), 8, 1, 1, 1)
+			SetPlayerInvincible(PlayerPedId(), true)
+		else
+			SetPedDefaultComponentVariation(PlayerPedId())
+			SetPlayerInvincible(PlayerPedId(), false)
+		end
+	end
+end)
+
+gloves = false
+
+  RegisterNetEvent( 'gloveson')
+AddEventHandler( 'gloveson', function()
+	if (GetEntityModel(PlayerPedId()) == medic) then
+		gloves = not gloves
+		if gloves then
+			SetPedComponentVariation(PlayerPedId(), 5, 1, 0, 1)
+		else
+			SetPedDefaultComponentVariation(PlayerPedId())
+		end
+	end
+end)
+
+vest = false
+	RegisterNetEvent('veston')
+AddEventHandler('veston', function()
+	vest = not vest
+	if (GetEntityModel(PlayerPedId()) == hwaycop) then
+		if vest then
+			SetPedComponentVariation(PlayerPedId(), 8, 1, 1, 1)
+		else
+			SetPedDefaultComponentVariation(PlayerPedId())
+		end
+	elseif (GetEntityModel(PlayerPedId()) == cop) then
+		if vest then
+			SetPedComponentVariation(PlayerPedId(), 9, 2, 0, 1)
+		else
+			SetPedDefaultComponentVariation(PlayerPedId())
+		end
+	elseif (GetEntityModel(PlayerPedId()) == sheriff) then
+		if vest then
+			SetPedComponentVariation(PlayerPedId(), 9, 2, 0, 1)
+		else
+			SetPedDefaultComponentVariation(PlayerPedId())
+		end
+	end
+end)
+
+sg = false
+
+  RegisterNetEvent( 'glasseson' )
+AddEventHandler( 'glasseson', function()
+	sg = not sg
+	if(GetEntityModel(PlayerPedId()) == hwaycop) then
+		if sg then
+			SetPedPropIndex(PlayerPedId(), 1, 0, 1, 2)
+		else
+			ClearPedProp(PlayerPedId(), 1)
+		end
+	elseif(GetEntityModel(PlayerPedId()) == cop) then
+		if sg then
+			SetPedPropIndex(PlayerPedId(), 1, 0, 0, 2)
+		else
+			ClearPedProp(PlayerPedId(), 1)
+		end
+	elseif(GetEntityModel(PlayerPedId()) == sheriff) then
+		if sg then
+			SetPedPropIndex(PlayerPedId(), 1, 1, 0, 2)
+		else
+			ClearPedProp(PlayerPedId(), 1)
+		end
+	elseif(GetEntityModel(PlayerPedId()) == medic) then
+		if sg then
+			SetPedPropIndex(PlayerPedId(), 1, 0, 0, 2)
+		else
+			ClearPedProp(PlayerPedId(), 1)
+		end
+	end
+end)
+
+---------------- LEO Functions ----------------
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -1003,8 +1458,8 @@ AddEventHandler("ad1",function()
 		end
 		 Citizen.Wait(0)
 		 end
-		 
-	
+
+
 end)
 end)
 
@@ -1013,7 +1468,7 @@ AddEventHandler('displayad1',function(inputText)
 
 SetNotificationTextEntry("STRING");
 AddTextComponentString(inputText);
-SetNotificationMessage("CHAR_FLOYD", "247", true, 1, "~y~24/7~s~", "");
+SetNotificationMessage("CHAR_FLOYD", "247", true, 1, "~y~24/7 Store~s~", "Phone Notification");
 DrawNotification(false, true);
 
 end)
@@ -1043,8 +1498,8 @@ AddEventHandler("ad2",function()
 		end
 		 Citizen.Wait(0)
 		 end
-		 
-	
+
+
 end)
 end)
 
@@ -1053,7 +1508,7 @@ AddEventHandler('displayad2',function(inputText)
 
 SetNotificationTextEntry("STRING");
 AddTextComponentString(inputText);
-SetNotificationMessage("CHAR_AMMUNATION", "CHAR_AMMUNATION", true, 1, "~y~Ammunation~s~", "");
+SetNotificationMessage("CHAR_AMMUNATION", "CHAR_AMMUNATION", true, 1, "~y~Ammunation~s~", "Phone Notification");
 DrawNotification(false, true);
 
 end)
@@ -1082,8 +1537,8 @@ AddEventHandler("ad3",function()
 		end
 		 Citizen.Wait(0)
 		 end
-		 
-	
+
+
 end)
 end)
 
@@ -1092,7 +1547,7 @@ AddEventHandler('displayad3',function(inputText)
 
 SetNotificationTextEntry("STRING");
 AddTextComponentString(inputText);
-SetNotificationMessage("CHAR_FLOYD", "NEWS", true, 1, "~y~Weazel News~s~", "");
+SetNotificationMessage("CHAR_FLOYD", "NEWS", true, 1, "~y~Weazel News~s~", "Phone Notification");
 DrawNotification(false, true);
 
 end)
@@ -1121,8 +1576,8 @@ AddEventHandler("ad4",function()
 		end
 		 Citizen.Wait(0)
 		 end
-		 
-	
+
+
 end)
 end)
 
@@ -1131,7 +1586,7 @@ AddEventHandler('displayad4',function(inputText)
 
 SetNotificationTextEntry("STRING");
 AddTextComponentString(inputText);
-SetNotificationMessage("CHAR_MP_STRIPCLUB_PR", "CHAR_MP_STRIPCLUB_PR", true, 1, "~y~Vanilla Unicorn~s~", "");
+SetNotificationMessage("CHAR_MP_STRIPCLUB_PR", "CHAR_MP_STRIPCLUB_PR", true, 1, "~y~Vanilla Unicorn~s~", "Phone Notification");
 DrawNotification(false, true);
 
 end)
@@ -1160,8 +1615,8 @@ AddEventHandler("ad5",function()
 		end
 		 Citizen.Wait(0)
 		 end
-		 
-	
+
+
 end)
 end)
 
@@ -1170,7 +1625,7 @@ AddEventHandler('displayad5',function(inputText)
 
 SetNotificationTextEntry("STRING");
 AddTextComponentString(inputText);
-SetNotificationMessage("CHAR_TAXI", "CHAR_TAXI", true, 1, "~y~Downtown Cab Co.~s~", "");
+SetNotificationMessage("CHAR_TAXI", "CHAR_TAXI", true, 1, "~y~Downtown Cab Co.~s~", "Phone Notification");
 DrawNotification(false, true);
 
 end)
@@ -1199,8 +1654,8 @@ AddEventHandler("ad6",function()
 		end
 		 Citizen.Wait(0)
 		 end
-		 
-	
+
+
 end)
 end)
 
@@ -1209,7 +1664,7 @@ AddEventHandler('displayad6',function(inputText)
 
 SetNotificationTextEntry("STRING");
 AddTextComponentString(inputText);
-SetNotificationMessage("CHAR_LS_TOURIST_BOARD", "CHAR_LS_TOURIST_BOARD", true, 1, "~y~Los Santos Traffic Info~s~", "");
+SetNotificationMessage("CHAR_LS_TOURIST_BOARD", "CHAR_LS_TOURIST_BOARD", true, 1, "~y~Los Santos Traffic Info~s~", "Phone Notification");
 DrawNotification(false, true);
 
 end)
@@ -1238,8 +1693,8 @@ AddEventHandler("ad7",function()
 		end
 		 Citizen.Wait(0)
 		 end
-		 
-	
+
+
 end)
 end)
 
@@ -1248,7 +1703,7 @@ AddEventHandler('displayad7',function(inputText)
 
 SetNotificationTextEntry("STRING");
 AddTextComponentString(inputText);
-SetNotificationMessage("CHAR_LS_CUSTOMS", "CHAR_LS_CUSTOMS", true, 1, "~y~Los Santos Customs~s~", "");
+SetNotificationMessage("CHAR_LS_CUSTOMS", "CHAR_LS_CUSTOMS", true, 1, "~y~Los Santos Customs~s~", "Phone Notification");
 DrawNotification(false, true);
 
 end)
@@ -1278,8 +1733,8 @@ AddEventHandler("ad8",function()
 		end
 		 Citizen.Wait(0)
 		 end
-		 
-	
+
+
 end)
 end)
 
@@ -1288,7 +1743,7 @@ AddEventHandler('displayad8',function(inputText)
 
 SetNotificationTextEntry("STRING");
 AddTextComponentString(inputText);
-SetNotificationMessage("CHAR_FLOYD", "ACE", true, 1, "~y~Ace Liquor~s~", "");
+SetNotificationMessage("CHAR_FLOYD", "ACE", true, 1, "~y~Ace Liquor~s~", "Phone Notification");
 DrawNotification(false, true);
 
 end)
@@ -1317,8 +1772,8 @@ AddEventHandler("ad9",function()
 		end
 		 Citizen.Wait(0)
 		 end
-		 
-	
+
+
 end)
 end)
 
@@ -1327,7 +1782,7 @@ AddEventHandler('displayad9',function(inputText)
 
 SetNotificationTextEntry("STRING");
 AddTextComponentString(inputText);
-SetNotificationMessage("CHAR_FLOYD", "LTD", true, 1, "~y~Limited Gasoline~s~", "");
+SetNotificationMessage("CHAR_FLOYD", "LTD", true, 1, "~y~Limited Gasoline~s~", "Phone Notification");
 DrawNotification(false, true);
 
 end)
@@ -1356,8 +1811,8 @@ AddEventHandler("ad10",function()
 		end
 		 Citizen.Wait(0)
 		 end
-		 
-	
+
+
 end)
 end)
 
@@ -1366,7 +1821,7 @@ AddEventHandler('displayad10',function(inputText)
 
 SetNotificationTextEntry("STRING");
 AddTextComponentString(inputText);
-SetNotificationMessage("CHAR_FLOYD", "POSTAL", true, 1, "~y~GoPostal~s~", "");
+SetNotificationMessage("CHAR_FLOYD", "POSTAL", true, 1, "~y~GoPostal~s~", "Phone Notification");
 DrawNotification(false, true);
 
 end)
@@ -1395,8 +1850,8 @@ AddEventHandler("ad11",function()
 		end
 		 Citizen.Wait(0)
 		 end
-		 
-	
+
+
 end)
 end)
 
@@ -1405,7 +1860,7 @@ AddEventHandler('displayad11',function(inputText)
 
 SetNotificationTextEntry("STRING");
 AddTextComponentString(inputText);
-SetNotificationMessage("CHAR_FLOYD", "NA", true, 1, "~y~Hayes Auto~s~", "");
+SetNotificationMessage("CHAR_FLOYD", "NA", true, 1, "~y~Hayes Auto~s~", "Phone Notification");
 DrawNotification(false, true);
 
 end)
@@ -1434,8 +1889,8 @@ AddEventHandler("ad12",function()
 		end
 		 Citizen.Wait(0)
 		 end
-		 
-	
+
+
 end)
 end)
 
@@ -1444,7 +1899,7 @@ AddEventHandler('displayad12',function(inputText)
 
 SetNotificationTextEntry("STRING");
 AddTextComponentString(inputText);
-SetNotificationMessage("CHAR_FLOYD", "VAN", true, 1, "~y~Vangelico~s~", "");
+SetNotificationMessage("CHAR_FLOYD", "VAN", true, 1, "~y~Vangelico~s~", "Phone Notification");
 DrawNotification(false, true);
 
 end)
@@ -1473,8 +1928,8 @@ AddEventHandler("ad13",function()
 		end
 		 Citizen.Wait(0)
 		 end
-		 
-	
+
+
 end)
 end)
 
@@ -1483,7 +1938,7 @@ AddEventHandler('displayad13',function(inputText)
 
 SetNotificationTextEntry("STRING");
 AddTextComponentString(inputText);
-SetNotificationMessage("CHAR_FLOYD", "BELL", true, 1, "~y~Cluckin' Bell~s~", "");
+SetNotificationMessage("CHAR_FLOYD", "BELL", true, 1, "~y~Cluckin' Bell~s~", "Phone Notification");
 DrawNotification(false, true);
 
 end)
@@ -1512,8 +1967,8 @@ AddEventHandler("ad14",function()
 		end
 		 Citizen.Wait(0)
 		 end
-		 
-	
+
+
 end)
 end)
 
@@ -1522,7 +1977,7 @@ AddEventHandler('displayad14',function(inputText)
 
 SetNotificationTextEntry("STRING");
 AddTextComponentString(inputText);
-SetNotificationMessage("CHAR_FLOYD", "BUG", true, 1, "~y~Bugstars~s~", "");
+SetNotificationMessage("CHAR_FLOYD", "BUG", true, 1, "~y~Bugstars~s~", "Phone Notification");
 DrawNotification(false, true);
 
 end)
@@ -1551,8 +2006,8 @@ AddEventHandler("ad15",function()
 		end
 		 Citizen.Wait(0)
 		 end
-		 
-	
+
+
 end)
 end)
 
@@ -1561,7 +2016,7 @@ AddEventHandler('displayad15',function(inputText)
 
 SetNotificationTextEntry("STRING");
 AddTextComponentString(inputText);
-SetNotificationMessage("CHAR_BANK_FLEECA", "CHAR_BANK_FLEECA", true, 1, "~y~Fleeca Bank~s~", "");
+SetNotificationMessage("CHAR_BANK_FLEECA", "CHAR_BANK_FLEECA", true, 1, "~y~Fleeca Bank~s~", "Phone Notification");
 DrawNotification(false, true);
 
 end)
@@ -1590,8 +2045,8 @@ AddEventHandler("ad16",function()
 		end
 		 Citizen.Wait(0)
 		 end
-		 
-	
+
+
 end)
 end)
 
@@ -1600,7 +2055,7 @@ AddEventHandler('displayad16',function(inputText)
 
 SetNotificationTextEntry("STRING");
 AddTextComponentString(inputText);
-SetNotificationMessage("CHAR_FLOYD", "NA", true, 1, "~y~Echo Sechs~s~", "");
+SetNotificationMessage("CHAR_FLOYD", "NA", true, 1, "~y~Echo Sechs~s~", "Phone Notification");
 DrawNotification(false, true);
 
 end)
@@ -1629,8 +2084,8 @@ AddEventHandler("ad17",function()
 		end
 		 Citizen.Wait(0)
 		 end
-		 
-	
+
+
 end)
 end)
 
@@ -1639,7 +2094,7 @@ AddEventHandler('displayad17',function(inputText)
 
 SetNotificationTextEntry("STRING");
 AddTextComponentString(inputText);
-SetNotificationMessage("CHAR_MP_MORS_MUTUAL", "CHAR_MP_MORS_MUTUAL", true, 1, "~y~Mors Mutual Insurance~s~", "");
+SetNotificationMessage("CHAR_MP_MORS_MUTUAL", "CHAR_MP_MORS_MUTUAL", true, 1, "~y~Mors Mutual Insurance~s~", "Phone Notification");
 DrawNotification(false, true);
 
 end)
@@ -1668,8 +2123,8 @@ AddEventHandler("ad18",function()
 		end
 		 Citizen.Wait(0)
 		 end
-		 
-	
+
+
 end)
 end)
 
@@ -1678,7 +2133,7 @@ AddEventHandler('displayad18',function(inputText)
 
 SetNotificationTextEntry("STRING");
 AddTextComponentString(inputText);
-SetNotificationMessage("CHAR_FLOYD", "OP", true, 1, "~y~PostOP~s~", "");
+SetNotificationMessage("CHAR_FLOYD", "OP", true, 1, "~y~PostOP~s~", "Phone Notification");
 DrawNotification(false, true);
 
 end)
@@ -1707,8 +2162,8 @@ AddEventHandler("ad19",function()
 		end
 		 Citizen.Wait(0)
 		 end
-		 
-	
+
+
 end)
 end)
 
@@ -1717,7 +2172,7 @@ AddEventHandler('displayad19',function(inputText)
 
 SetNotificationTextEntry("STRING");
 AddTextComponentString(inputText);
-SetNotificationMessage("CHAR_FLOYD", "EXOTIC", true, 1, "~y~Auto Exotic~s~", "");
+SetNotificationMessage("CHAR_FLOYD", "EXOTIC", true, 1, "~y~Auto Exotic~s~", "Phone Notification");
 DrawNotification(false, true);
 
 end)
@@ -1746,8 +2201,8 @@ AddEventHandler("ad20",function()
 		end
 		 Citizen.Wait(0)
 		 end
-		 
-	
+
+
 end)
 end)
 
@@ -1756,7 +2211,7 @@ AddEventHandler('displayad20',function(inputText)
 
 SetNotificationTextEntry("STRING");
 AddTextComponentString(inputText);
-SetNotificationMessage("CHAR_FLOYD", "LSWP", true, 1, "~y~Los Santos Water and Power~s~", "");
+SetNotificationMessage("CHAR_FLOYD", "LSWP", true, 1, "~y~Los Santos Water and Power~s~", "Phone Notification");
 DrawNotification(false, true);
 
 end)
@@ -1786,8 +2241,8 @@ AddEventHandler("ad21",function()
 		end
 		 Citizen.Wait(0)
 		 end
-		 
-	
+
+
 end)
 end)
 
@@ -1796,7 +2251,46 @@ AddEventHandler('displayad21',function(inputText)
 
 SetNotificationTextEntry("STRING");
 AddTextComponentString(inputText);
-SetNotificationMessage("CHAR_FLOYD", "D8", true, 1, "~y~Dynasty 8~s~", "");
+SetNotificationMessage("CHAR_FLOYD", "D8", true, 1, "~y~Dynasty 8~s~", "Phone Notification");
+DrawNotification(false, true);
+
+end)
+
+RegisterNetEvent("ad22")
+AddEventHandler("ad22",function()
+		DisplayOnscreenKeyboard(false, "FMMC_KEY_TIP8", "", "", "", "", "", 60)
+		local input = true
+		Citizen.CreateThread(function()
+		while input do
+		if input == true then
+		HideHudAndRadarThisFrame()
+		if UpdateOnscreenKeyboard() == 3 then
+		input = false
+		elseif UpdateOnscreenKeyboard() == 1 then
+		local inputText = GetOnscreenKeyboardResult()
+		if string.len(inputText) > 0 then
+		TriggerServerEvent('syncad22', inputText)
+		input = false
+		else
+			DisplayOnscreenKeyboard(false, "FMMC_KEY_TIP8", "", "", "", "", "", 60)
+		end
+		elseif UpdateOnscreenKeyboard() == 2 then
+		input = false
+		end
+		end
+		 Citizen.Wait(0)
+		 end
+
+
+end)
+end)
+
+RegisterNetEvent('displayad22')
+AddEventHandler('displayad22',function(inputText)
+
+SetNotificationTextEntry("STRING");
+AddTextComponentString(inputText);
+SetNotificationMessage("CHAR_FLOYD", "UBER", true, 1, "~y~Uber~s~", "Phone Notification");
 DrawNotification(false, true);
 
 end)
@@ -1805,170 +2299,52 @@ end)
 
 -- [Outfits]
 
--- LSPD Start
+---------------- Delete Vehicle ----------------
 
-RegisterNetEvent("lspdOutfit")
-AddEventHandler("lspdOutfit",function()
-local model = GetHashKey("s_m_y_cop_01")
-    RequestModel(model)
-    while not HasModelLoaded(model) do
-        RequestModel(model)
-        Citizen.Wait(0)
-    end
-    SetPlayerModel(PlayerId(), model)
-    SetModelAsNoLongerNeeded(model)
-    local ped = PlayerPedId()
-	GiveWeaponToPed(GetPlayerPed(-1), GetHashKey("WEAPON_COMBATPISTOL"), 1000, false)
-	--GiveWeaponComponentToPed(GetPlayerPed(-1), GetHashKey("WEAPON_PISTOL"), GetHashKey("COMPONENT_AT_PI_FLSH"))
-	GiveWeaponToPed(GetPlayerPed(-1), GetHashKey("WEAPON_NIGHTSTICK"), 1000, false)
-	GiveWeaponToPed(GetPlayerPed(-1), GetHashKey("WEAPON_FLASHLIGHT"), 1000, false)
-	GiveWeaponToPed(GetPlayerPed(-1), GetHashKey("WEAPON_STUNGUN"), 1000, false)
-	GiveWeaponToPed(GetPlayerPed(-1), GetHashKey("WEAPON_CARBINERIFLE"), 1000, false)
-	GiveWeaponToPed(GetPlayerPed(-1), GetHashKey("WEAPON_PUMPSHOTGUN"), 1000, false)
-    chatPrint( "Your LSPD loadout has been equipped!")	
-end)
+RegisterNetEvent( 'deleteVehicle' )
 
--- LSPD End
-
--- BCSO Start
-
-RegisterNetEvent("bcsoOutfit")
-AddEventHandler("bcsoOutfit",function()
-local model = GetHashKey("s_m_y_sheriff_01")
-    RequestModel(model)
-    while not HasModelLoaded(model) do
-        RequestModel(model)
-        Citizen.Wait(0)
-    end
-    SetPlayerModel(PlayerId(), model)
-    SetModelAsNoLongerNeeded(model)
-    local ped = PlayerPedId()
-	GiveWeaponToPed(GetPlayerPed(-1), GetHashKey("WEAPON_COMBATPISTOL"), 1000, false)
-	--GiveWeaponComponentToPed(GetPlayerPed(-1), GetHashKey("WEAPON_PISTOL"), GetHashKey("COMPONENT_AT_PI_FLSH"))
-	GiveWeaponToPed(GetPlayerPed(-1), GetHashKey("WEAPON_NIGHTSTICK"), 1000, false)
-	GiveWeaponToPed(GetPlayerPed(-1), GetHashKey("WEAPON_FLASHLIGHT"), 1000, false)
-	GiveWeaponToPed(GetPlayerPed(-1), GetHashKey("WEAPON_STUNGUN"), 1000, false)
-	GiveWeaponToPed(GetPlayerPed(-1), GetHashKey("WEAPON_CARBINERIFLE"), 1000, false)
-	GiveWeaponToPed(GetPlayerPed(-1), GetHashKey("WEAPON_PUMPSHOTGUN"), 1000, false)
-    chatPrint( "Your BCSO loadout has been equipped!")	
-end)
-
--- BCSO End
-
--- SAHP Start
-
-RegisterNetEvent("sahpOutfit")
-AddEventHandler("sahpOutfit",function()
-local model = GetHashKey("s_m_y_hwaycop_01")
-    RequestModel(model)
-    while not HasModelLoaded(model) do
-        RequestModel(model)
-        Citizen.Wait(0)
-    end
-    SetPlayerModel(PlayerId(), model)
-    SetModelAsNoLongerNeeded(model)
-    local ped = PlayerPedId()
-	GiveWeaponToPed(GetPlayerPed(-1), GetHashKey("WEAPON_COMBATPISTOL"), 1000, false)
-	--GiveWeaponComponentToPed(GetPlayerPed(-1), GetHashKey("WEAPON_PISTOL"), GetHashKey("COMPONENT_AT_PI_FLSH"))
-	GiveWeaponToPed(GetPlayerPed(-1), GetHashKey("WEAPON_NIGHTSTICK"), 1000, false)
-	GiveWeaponToPed(GetPlayerPed(-1), GetHashKey("WEAPON_FLASHLIGHT"), 1000, false)
-	GiveWeaponToPed(GetPlayerPed(-1), GetHashKey("WEAPON_STUNGUN"), 1000, false)
-	GiveWeaponToPed(GetPlayerPed(-1), GetHashKey("WEAPON_CARBINERIFLE"), 1000, false)
-	GiveWeaponToPed(GetPlayerPed(-1), GetHashKey("WEAPON_PUMPSHOTGUN"), 1000, false)
-    chatPrint( "Your SAHP loadout has been equipped!")	
-end)
-
--- SAHP End
-
--- Firefighter Start
-
-RegisterNetEvent("fireOutfit")
-AddEventHandler("fireOutfit",function()
-local model = GetHashKey("s_m_y_fireman_01")
-    RequestModel(model)
-    while not HasModelLoaded(model) do
-        RequestModel(model)
-        Citizen.Wait(0)
-    end
-    SetPlayerModel(PlayerId(), model)
-    SetModelAsNoLongerNeeded(model)
-    local ped = PlayerPedId()
-	GiveWeaponToPed(GetPlayerPed(-1), GetHashKey("WEAPON_FLARE"), 1000, false)
-	GiveWeaponToPed(GetPlayerPed(-1), GetHashKey("WEAPON_FLASHLIGHT"), 1000, false)
-	GiveWeaponToPed(GetPlayerPed(-1), GetHashKey("WEAPON_STUNGUN"), 1000, false)
-	GiveWeaponToPed(GetPlayerPed(-1), GetHashKey("WEAPON_FLAREGUN"), 1000, false)
-	GiveWeaponToPed(GetPlayerPed(-1), GetHashKey("WEAPON_FIREEXTINGUISHER"), 1000, false)
-    chatPrint("Your Fire Department loadout has been equipped!")	
-end)
-
--- Firefighter End
-
--- Medic Start
-
-RegisterNetEvent("medicOutfit")
-AddEventHandler("medicOutfit",function()
-local model = GetHashKey("s_m_m_paramedic_01")
-    RequestModel(model)
-    while not HasModelLoaded(model) do
-        RequestModel(model)
-        Citizen.Wait(0)
-    end
-    SetPlayerModel(PlayerId(), model)
-    SetModelAsNoLongerNeeded(model)
-    local ped = PlayerPedId()
-	GiveWeaponToPed(GetPlayerPed(-1), GetHashKey("WEAPON_FLASHLIGHT"), 1000, false)
-	GiveWeaponToPed(GetPlayerPed(-1), GetHashKey("WEAPON_STUNGUN"), 1000, false)
-    chatPrint("Your EMS loadout has been equipped!")	
-end)
-
--- Medic End
-
--- Delete Vehicle Start -- 
-
-RegisterNetEvent( 'wk:deleteVehicle' )
- 
 local distanceToCheck = 5.0
 
-AddEventHandler( 'wk:deleteVehicle', function()
+AddEventHandler( 'deleteVehicle', function()
     local ped = GetPlayerPed( -1 )
 
-    if ( DoesEntityExist( ped ) and not IsEntityDead( ped ) ) then 
+    if ( DoesEntityExist( ped ) and not IsEntityDead( ped ) ) then
         local pos = GetEntityCoords( ped )
 
-        if ( IsPedSittingInAnyVehicle( ped ) ) then 
+        if ( IsPedSittingInAnyVehicle( ped ) ) then
             local vehicle = GetVehiclePedIsIn( ped, false )
 
-            if ( GetPedInVehicleSeat( vehicle, -1 ) == ped ) then 
+            if ( GetPedInVehicleSeat( vehicle, -1 ) == ped ) then
                 SetEntityAsMissionEntity( vehicle, true, true )
                 deleteCar( vehicle )
 
-                if ( DoesEntityExist( vehicle ) ) then 
+                if ( DoesEntityExist( vehicle ) ) then
                 	ShowNotification( "~r~Unable to delete vehicle, try again." )
-                else 
+                else
                 	ShowNotification( "~g~Success: ~w~Vehicle deleted." )
-                end 
-            else 
+                end
+            else
                 ShowNotification( "You must be in the driver's seat!" )
-            end 
+            end
         else
             local playerPos = GetEntityCoords( ped, 1 )
             local inFrontOfPlayer = GetOffsetFromEntityInWorldCoords( ped, 0.0, distanceToCheck, 0.0 )
             local vehicle = GetVehicleInDirection( playerPos, inFrontOfPlayer )
 
-            if ( DoesEntityExist( vehicle ) ) then 
+            if ( DoesEntityExist( vehicle ) ) then
                 SetEntityAsMissionEntity( vehicle, true, true )
                 deleteCar( vehicle )
 
-                if ( DoesEntityExist( vehicle ) ) then 
+                if ( DoesEntityExist( vehicle ) ) then
                 	ShowNotification( "~r~Unable to delete vehicle, try again." )
-                else 
+                else
                 	ShowNotification( "~g~Success: ~w~Vehicle deleted." )
-                end 
-            else 
+                end
+            else
                 ShowNotification( "You must be in or near a vehicle to delete it." )
-            end 
-        end 
-    end 
+            end
+        end
+    end
 end )
 
 -- Delete car function borrowed frtom Mr.Scammer's model blacklist, thanks to him!
@@ -1990,207 +2366,474 @@ end
 
 -- Delete Vehicle End
 
+---------------- Fix ----------------
+
+RegisterNetEvent("fixCar")
+AddEventHandler("fixCar", function()
+	local playerPed = GetPlayerPed(-1)
+	if IsPedInAnyVehicle(playerPed) then
+		local vehicle = GetVehiclePedIsIn(playerPed)
+		EngineRepair()
+		FreezeEntityPosition(GetVehiclePedIsUsing(GetPlayerPed(-1)), true)
+		    drawNotification("~g~The mechanic's working on your car. It should take around 15 seconds to complete.")
+			Citizen.Wait(15000)
+		FreezeEntityPosition(GetVehiclePedIsUsing(GetPlayerPed(-1)), false)
+		SetVehicleEngineHealth(vehicle, 9999)
+		SetVehiclePetrolTankHealth(vehicle, 9999)
+		SetVehicleFixed(vehicle)
+		EngineRepair()
+		    drawNotification("~g~Your vehicle has been fixed.")
+	else
+		drawNotification("~r~You are not in a vehicle.")
+	end
+end)
+
+---------------- Fix ----------------
+
+---------------- Lock ----------------
+
+interactionDistance = 3.5 --The radius you have to be in to interact with the vehicle.
+lockDistance = 25 --The radius you have to be in to lock your vehicle.
+
+saved = false
+controlsave_bool = false
+
+RegisterNetEvent('lockLights')
+AddEventHandler('lockLights',function()
+local vehicle = saveVehicle
+	StartVehicleHorn(vehicle, 100, 1, false)
+	SetVehicleLights(vehicle, 2)
+	Wait (200)
+	SetVehicleLights(vehicle, 0)
+	StartVehicleHorn(vehicle, 100, 1, false)
+	Wait (200)
+	SetVehicleLights(vehicle, 2)
+	Wait (400)
+	SetVehicleLights(vehicle, 0)
+end)
+
+RegisterNetEvent('lock')
+AddEventHandler('lock',function()
+	local player = GetPlayerPed(-1)
+    local vehicle = saveVehicle
+	local islocked = GetVehicleDoorLockStatus(vehicle)
+	local distanceToVeh = GetDistanceBetweenCoords(GetEntityCoords(player), GetEntityCoords(vehicle), 1)
+		if DoesEntityExist(vehicle) then
+			if distanceToVeh <= lockDistance then
+				if (islocked == 1)then
+				SetVehicleDoorsLocked(vehicle, 2)
+				ShowNotification("You have locked your ~y~" .. GetLabelText(GetDisplayNameFromVehicleModel(GetEntityModel(vehicle))) .. "~w~.")
+				TriggerEvent('lockLights')
+				else
+				SetVehicleDoorsLocked(vehicle,1)
+				ShowNotification("You have unlocked your ~y~" .. GetLabelText(GetDisplayNameFromVehicleModel(GetEntityModel(vehicle))) .. "~w~.")
+				TriggerEvent('lockLights')
+				end
+			else
+				ShowNotification("~r~You must be near your vehicle to do that.")
+			end
+		else
+			ShowNotification("~r~No saved vehicle.")
+		end
+	end)
+
+function ShowNotification( text )
+    SetNotificationTextEntry( "STRING" )
+    AddTextComponentString( text )
+    DrawNotification( false, false )
+end
+
+---------------- Lock ----------------
+
+---------------- Save ----------------
+
+RegisterNetEvent('save')
+AddEventHandler('save',function()
+	local player = GetPlayerPed(-1)
+	if (IsPedSittingInAnyVehicle(player)) then
+		if  saved == true then
+			--remove from saved.
+			saveVehicle = nil
+			RemoveBlip(targetBlip)
+			SetEntityAsNoLongerNeeded(vehicle)
+			ShowNotification("Saved vehicle ~r~removed~w~.")
+			saved = false
+		else
+			RemoveBlip(targetBlip)
+			saveVehicle = GetVehiclePedIsIn(player,true)
+			local vehicle = saveVehicle
+			SetEntityAsMissionEntity(vehicle, true, true)
+			targetBlip = AddBlipForEntity(vehicle)
+			SetBlipSprite(targetBlip,225)
+			ShowNotification("This ~y~" .. GetLabelText(GetDisplayNameFromVehicleModel(GetEntityModel(vehicle))) .. "~w~ is now your~g~ saved ~w~vehicle.")
+			saved = true
+		end
+	end
+end)
+
+RegisterNetEvent('controlsave')
+AddEventHandler('controlsave',function()
+		if controlsave_bool == false then
+			controlsave_bool = true
+			if saveVehicle == nil then
+			ShowNotification("~r~No saved vehicle.")
+			else
+			ShowNotification("You are no longer controlling your ~y~" .. GetLabelText(GetDisplayNameFromVehicleModel(GetEntityModel(saveVehicle))))
+			end
+		else
+			controlsave_bool = false
+			if saveVehicle == nil then
+			ShowNotification("~r~No saved vehicle.")
+			else
+			ShowNotification("You are no longer controlling your ~y~" .. GetLabelText(GetDisplayNameFromVehicleModel(GetEntityModel(saveVehicle))))
+			end
+		end
+end)
+
+---------------- Save ----------------
+
 -- Civ Emotes Start  --
 
 RegisterNetEvent('Smoke')
 AddEventHandler('Smoke', function()
 
+local emotePlaying = IsPedActiveInScenario(GetPlayerPed(-1))
 local ped = GetPlayerPed( -1 )
-    if ( DoesEntityExist( ped ) and not IsEntityDead( ped ) ) then 
+    if ( DoesEntityExist( ped ) and not IsEntityDead( ped ) ) then
 	TaskStartScenarioInPlace(PlayerPedId(), "WORLD_HUMAN_SMOKING", 0, true);
-	Citizen.Wait(15000)
+	Citizen.Wait(9999999000)
         ClearPedTasksImmediately(GetPlayerPed(-1))
-    end 
+    end
 end )
-
+--]]
 RegisterNetEvent('Party')
 AddEventHandler('Party', function()
 
 local ped = GetPlayerPed( -1 )
-    if ( DoesEntityExist( ped ) and not IsEntityDead( ped ) ) then 
+    if ( DoesEntityExist( ped ) and not IsEntityDead( ped ) ) then
 	TaskStartScenarioInPlace(PlayerPedId(), "WORLD_HUMAN_PARTYING", 0, true);
-	Citizen.Wait(15000)
+	Citizen.Wait(9999999000)
         ClearPedTasksImmediately(GetPlayerPed(-1))
-    end 
+    end
 end )
 
 RegisterNetEvent('Drink')
 AddEventHandler('Drink', function()
 
 local ped = GetPlayerPed( -1 )
-    if ( DoesEntityExist( ped ) and not IsEntityDead( ped ) ) then 
+    if ( DoesEntityExist( ped ) and not IsEntityDead( ped ) ) then
 	TaskStartScenarioInPlace(PlayerPedId(), "WORLD_HUMAN_DRINKING", 0, true);
-	Citizen.Wait(15000)
+	Citizen.Wait(9999999000)
         ClearPedTasksImmediately(GetPlayerPed(-1))
-    end 
+    end
 end )
 
 RegisterNetEvent('Pushups')
 AddEventHandler('Pushups', function()
 
 local ped = GetPlayerPed( -1 )
-    if ( DoesEntityExist( ped ) and not IsEntityDead( ped ) ) then 
+    if ( DoesEntityExist( ped ) and not IsEntityDead( ped ) ) then
 	TaskStartScenarioInPlace(PlayerPedId(), "WORLD_HUMAN_PUSH_UPS", 0, true);
-	Citizen.Wait(15000)
+	Citizen.Wait(9999999000)
         ClearPedTasksImmediately(GetPlayerPed(-1))
-    end 
+    end
 end )
 
 RegisterNetEvent('Phone')
 AddEventHandler('Phone', function()
 
 local ped = GetPlayerPed( -1 )
-    if ( DoesEntityExist( ped ) and not IsEntityDead( ped ) ) then 
+    if ( DoesEntityExist( ped ) and not IsEntityDead( ped ) ) then
 	TaskStartScenarioInPlace(PlayerPedId(), "WORLD_HUMAN_STAND_MOBILE", 0, true);
-	Citizen.Wait(15000)
+	Citizen.Wait(9999999000)
         ClearPedTasksImmediately(GetPlayerPed(-1))
-    end 
+    end
 end )
 
 RegisterNetEvent('Injured')
 AddEventHandler('Injured', function()
 
 local ped = GetPlayerPed( -1 )
-    if ( DoesEntityExist( ped ) and not IsEntityDead( ped ) ) then 
+    if ( DoesEntityExist( ped ) and not IsEntityDead( ped ) ) then
 	TaskStartScenarioInPlace(PlayerPedId(), "WORLD_HUMAN_SUNBATHE_BACK", 0, true);
-	Citizen.Wait(15000)
+	Citizen.Wait(9999999000)
         ClearPedTasksImmediately(GetPlayerPed(-1))
-    end 
+    end
 end )
 
 RegisterNetEvent('Weed')
 AddEventHandler('Weed', function()
 
 local ped = GetPlayerPed( -1 )
-    if ( DoesEntityExist( ped ) and not IsEntityDead( ped ) ) then 
+    if ( DoesEntityExist( ped ) and not IsEntityDead( ped ) ) then
 	TaskStartScenarioInPlace(PlayerPedId(), "WORLD_HUMAN_SMOKING_POT", 0, true);
-	Citizen.Wait(15000)
+	Citizen.Wait(9999999000)
         ClearPedTasksImmediately(GetPlayerPed(-1))
-    end 
+    end
 end )
 
 RegisterNetEvent('Coffee')
 AddEventHandler('Coffee', function()
 
 local ped = GetPlayerPed( -1 )
-    if ( DoesEntityExist( ped ) and not IsEntityDead( ped ) ) then 
+    if ( DoesEntityExist( ped ) and not IsEntityDead( ped ) ) then
 	TaskStartScenarioInPlace(PlayerPedId(), "WORLD_HUMAN_AA_COFFEE", 0, true);
-	Citizen.Wait(15000)
+	Citizen.Wait(9999999000)
         ClearPedTasksImmediately(GetPlayerPed(-1))
-    end 
+    end
 end )
 
 RegisterNetEvent('Photo')
 AddEventHandler('Photo', function()
 
 local ped = GetPlayerPed( -1 )
-    if ( DoesEntityExist( ped ) and not IsEntityDead( ped ) ) then 
+    if ( DoesEntityExist( ped ) and not IsEntityDead( ped ) ) then
 	TaskStartScenarioInPlace(PlayerPedId(), "WORLD_HUMAN_PAPARAZZI", 0, true);
-	Citizen.Wait(15000)
+	Citizen.Wait(9999999000)
         ClearPedTasksImmediately(GetPlayerPed(-1))
-    end 
+    end
 end )
 
 RegisterNetEvent('Binoculars')
 AddEventHandler('Binoculars', function()
 
 local ped = GetPlayerPed( -1 )
-    if ( DoesEntityExist( ped ) and not IsEntityDead( ped ) ) then 
+    if ( DoesEntityExist( ped ) and not IsEntityDead( ped ) ) then
 	TaskStartScenarioInPlace(PlayerPedId(), "WORLD_HUMAN_BINOCULARS", 0, true);
-	Citizen.Wait(15000)
+	Citizen.Wait(9999999000)
         ClearPedTasksImmediately(GetPlayerPed(-1))
-    end 
+    end
 end )
 
 RegisterNetEvent('Situps')
 AddEventHandler('Situps', function()
 
 local ped = GetPlayerPed( -1 )
-    if ( DoesEntityExist( ped ) and not IsEntityDead( ped ) ) then 
+    if ( DoesEntityExist( ped ) and not IsEntityDead( ped ) ) then
 	TaskStartScenarioInPlace(PlayerPedId(), "WORLD_HUMAN_SIT_UPS", 0, true);
-	Citizen.Wait(15000)
+	Citizen.Wait(9999999000)
         ClearPedTasksImmediately(GetPlayerPed(-1))
-    end 
+    end
 end )
 
 RegisterNetEvent('Film')
 AddEventHandler('Film', function()
 
 local ped = GetPlayerPed( -1 )
-    if ( DoesEntityExist( ped ) and not IsEntityDead( ped ) ) then 
+    if ( DoesEntityExist( ped ) and not IsEntityDead( ped ) ) then
 	TaskStartScenarioInPlace(PlayerPedId(), "WORLD_HUMAN_MOBILE_FILM_SHOCKING", 0, true);
-	Citizen.Wait(15000)
+	Citizen.Wait(9999999000)
         ClearPedTasksImmediately(GetPlayerPed(-1))
-    end 
+    end
 end )
 
 RegisterNetEvent('Weights')
 AddEventHandler('Weights', function()
 
 local ped = GetPlayerPed( -1 )
-    if ( DoesEntityExist( ped ) and not IsEntityDead( ped ) ) then 
+    if ( DoesEntityExist( ped ) and not IsEntityDead( ped ) ) then
 	TaskStartScenarioInPlace(PlayerPedId(), "WORLD_HUMAN_MUSCLE_FREE_WEIGHTS", 0, true);
-	Citizen.Wait(15000)
+	Citizen.Wait(9999999000)
         ClearPedTasksImmediately(GetPlayerPed(-1))
-    end 
+    end
 end )
 
 RegisterNetEvent('Flex')
 AddEventHandler('Flex', function()
 
 local ped = GetPlayerPed( -1 )
-    if ( DoesEntityExist( ped ) and not IsEntityDead( ped ) ) then 
+    if ( DoesEntityExist( ped ) and not IsEntityDead( ped ) ) then
 	TaskStartScenarioInPlace(PlayerPedId(), "WORLD_HUMAN_MUSCLE_FLEX", 0, true);
-	Citizen.Wait(15000)
+	Citizen.Wait(9999999000)
         ClearPedTasksImmediately(GetPlayerPed(-1))
-    end 
+    end
 end )
 
 -- Civ Emotes End --
---[[
-RegisterNetEvent('Engine')
- 
-local vehicles = {}
-local State = {}
- 
+
+-- Emote Cancel Functions
+
 Citizen.CreateThread(function()
     while true do
-        Citizen.Wait(0)
-        if GetSeatPedIsTryingToEnter(GetPlayerPed(-1)) == -1 and not table.contains(vehicles, GetVehiclePedIsTryingToEnter(GetPlayerPed(-1))) then
-            table.insert(vehicles, GetVehiclePedIsTryingToEnter(GetPlayerPed(-1)))
-            table.insert(State, IsVehicleEngineOn(GetVehiclePedIsTryingToEnter(GetPlayerPed(-1))))
-        elseif IsPedInAnyVehicle(GetPlayerPed(-1), false) and not table.contains(vehicles, GetVehiclePedIsIn(GetPlayerPed(-1), false)) then
-            table.insert(vehicles, GetVehiclePedIsIn(GetPlayerPed(-1), false))
-            table.insert(State, IsVehicleEngineOn(GetVehiclePedIsIn(GetPlayerPed(-1), false)))
-        end
-        for i = 1, tablelength(vehicles) do
-            if (GetPedInVehicleSeat(vehicles[i], -1) == GetPlayerPed(-1)) or IsVehicleSeatFree(vehicles[i], -1) then
-                SetVehicleEngineOn(vehicles[i], State[i], State[i], State[i])
-            end
+    Citizen.Wait(0)
+        if IsPedUsingScenario(GetPlayerPed(-1), "WORLD_HUMAN_SMOKING") and (IsControlPressed(0, 32) or IsControlPressed(0, 33) or IsControlPressed(0, 34) or IsControlPressed(0, 35)) then
+        ClearPedTasks(GetPlayerPed(-1))
         end
     end
 end)
- 
-AddEventHandler('Engine', function()
-    local veh
-    local StateIndex
-    for i = 1, tablelength(vehicles) do
-        if vehicles[i] == GetVehiclePedIsIn(GetPlayerPed(-1), false) then
-            veh = vehicles[i]
-            StateIndex = i
-        end
-    end
-    if IsPedInAnyVehicle(GetPlayerPed(-1), false) then
-        if (GetPedInVehicleSeat(veh, -1) == GetPlayerPed(-1)) then
-            if IsVehicleEngineOn(veh) then
-                State[StateIndex] = false
-            else
-                State[StateIndex] = true
-            end
+
+Citizen.CreateThread(function()
+    while true do
+    Citizen.Wait(0)
+        if IsPedUsingScenario(GetPlayerPed(-1), "WORLD_HUMAN_PARTYING") and (IsControlPressed(0, 32) or IsControlPressed(0, 33) or IsControlPressed(0, 34) or IsControlPressed(0, 35)) then
+        ClearPedTasks(GetPlayerPed(-1))
         end
     end
 end)
- --]]
+
+Citizen.CreateThread(function()
+    while true do
+    Citizen.Wait(0)
+        if IsPedUsingScenario(GetPlayerPed(-1), "WORLD_HUMAN_PUSH_UPS") and (IsControlPressed(0, 32) or IsControlPressed(0, 33) or IsControlPressed(0, 34) or IsControlPressed(0, 35)) then
+        ClearPedTasks(GetPlayerPed(-1))
+        end
+    end
+end)
+
+Citizen.CreateThread(function()
+    while true do
+    Citizen.Wait(0)
+        if IsPedUsingScenario(GetPlayerPed(-1), "WORLD_HUMAN_STAND_MOBILE") and (IsControlPressed(0, 32) or IsControlPressed(0, 33) or IsControlPressed(0, 34) or IsControlPressed(0, 35)) then
+        ClearPedTasks(GetPlayerPed(-1))
+        end
+    end
+end)
+
+Citizen.CreateThread(function()
+    while true do
+    Citizen.Wait(0)
+        if IsPedUsingScenario(GetPlayerPed(-1), "WORLD_HUMAN_SUNBATHE_BACK") and (IsControlPressed(0, 32) or IsControlPressed(0, 33) or IsControlPressed(0, 34) or IsControlPressed(0, 35)) then
+        ClearPedTasks(GetPlayerPed(-1))
+        end
+    end
+end)
+
+Citizen.CreateThread(function()
+    while true do
+    Citizen.Wait(0)
+        if IsPedUsingScenario(GetPlayerPed(-1), "WORLD_HUMAN_SMOKING_POT") and (IsControlPressed(0, 32) or IsControlPressed(0, 33) or IsControlPressed(0, 34) or IsControlPressed(0, 35)) then
+        ClearPedTasks(GetPlayerPed(-1))
+        end
+    end
+end)
+
+Citizen.CreateThread(function()
+    while true do
+    Citizen.Wait(0)
+        if IsPedUsingScenario(GetPlayerPed(-1), "WORLD_HUMAN_AA_COFFEE") and (IsControlPressed(0, 32) or IsControlPressed(0, 33) or IsControlPressed(0, 34) or IsControlPressed(0, 35)) then
+        ClearPedTasks(GetPlayerPed(-1))
+        end
+    end
+end)
+
+Citizen.CreateThread(function()
+    while true do
+    Citizen.Wait(0)
+        if IsPedUsingScenario(GetPlayerPed(-1), "WORLD_HUMAN_PAPARAZZI") and (IsControlPressed(0, 32) or IsControlPressed(0, 33) or IsControlPressed(0, 34) or IsControlPressed(0, 35)) then
+        ClearPedTasks(GetPlayerPed(-1))
+        end
+    end
+end)
+
+Citizen.CreateThread(function()
+    while true do
+    Citizen.Wait(0)
+        if IsPedUsingScenario(GetPlayerPed(-1), "WORLD_HUMAN_BINOCULARS") and (IsControlPressed(0, 32) or IsControlPressed(0, 33) or IsControlPressed(0, 34) or IsControlPressed(0, 35)) then
+        ClearPedTasks(GetPlayerPed(-1))
+        end
+    end
+end)
+
+Citizen.CreateThread(function()
+    while true do
+    Citizen.Wait(0)
+        if IsPedUsingScenario(GetPlayerPed(-1), "WORLD_HUMAN_SIT_UPS") and (IsControlPressed(0, 32) or IsControlPressed(0, 33) or IsControlPressed(0, 34) or IsControlPressed(0, 35)) then
+        ClearPedTasks(GetPlayerPed(-1))
+        end
+    end
+end)
+
+Citizen.CreateThread(function()
+    while true do
+    Citizen.Wait(0)
+        if IsPedUsingScenario(GetPlayerPed(-1), "WORLD_HUMAN_MOBILE_FILM_SHOCKING") and (IsControlPressed(0, 32) or IsControlPressed(0, 33) or IsControlPressed(0, 34) or IsControlPressed(0, 35)) then
+        ClearPedTasks(GetPlayerPed(-1))
+        end
+    end
+end)
+
+Citizen.CreateThread(function()
+    while true do
+    Citizen.Wait(0)
+        if IsPedUsingScenario(GetPlayerPed(-1), "WORLD_HUMAN_MUSCLE_FREE_WEIGHTS") and (IsControlPressed(0, 32) or IsControlPressed(0, 33) or IsControlPressed(0, 34) or IsControlPressed(0, 35)) then
+        ClearPedTasks(GetPlayerPed(-1))
+        end
+    end
+end)
+
+Citizen.CreateThread(function()
+    while true do
+    Citizen.Wait(0)
+        if IsPedUsingScenario(GetPlayerPed(-1), "WORLD_HUMAN_MUSCLE_FLEX") and (IsControlPressed(0, 32) or IsControlPressed(0, 33) or IsControlPressed(0, 34) or IsControlPressed(0, 35)) then
+        ClearPedTasks(GetPlayerPed(-1))
+        end
+    end
+end)
+
+Citizen.CreateThread(function()
+    while true do
+    Citizen.Wait(0)
+        if IsPedUsingScenario(GetPlayerPed(-1), "WORLD_HUMAN_COP_IDLES") and (IsControlPressed(0, 32) or IsControlPressed(0, 33) or IsControlPressed(0, 34) or IsControlPressed(0, 35)) then
+        ClearPedTasks(GetPlayerPed(-1))
+        end
+    end
+end)
+
+Citizen.CreateThread(function()
+    while true do
+    Citizen.Wait(0)
+        if IsPedUsingScenario(GetPlayerPed(-1), "WORLD_HUMAN_GUARD_STAND") and (IsControlPressed(0, 32) or IsControlPressed(0, 33) or IsControlPressed(0, 34) or IsControlPressed(0, 35)) then
+        ClearPedTasks(GetPlayerPed(-1))
+        end
+    end
+end)
+
+Citizen.CreateThread(function()
+    while true do
+    Citizen.Wait(0)
+        if IsPedUsingScenario(GetPlayerPed(-1), "CODE_HUMAN_MEDIC_TIME_OF_DEATH") and (IsControlPressed(0, 32) or IsControlPressed(0, 33) or IsControlPressed(0, 34) or IsControlPressed(0, 35)) then
+        ClearPedTasdwks(GetPlayerPed(-1))
+        end
+    end
+end)
+
+Citizen.CreateThread(function()
+    while true do
+    Citizen.Wait(0)
+        if IsPedUsingScenario(GetPlayerPed(-1), "WORLD_HUMAN_CLIPBOARD") and (IsControlPressed(0, 32) or IsControlPressed(0, 33) or IsControlPressed(0, 34) or IsControlPressed(0, 35)) then
+        ClearPedTasks(GetPlayerPed(-1))
+        end
+    end
+end)
+
+Citizen.CreateThread(function()
+    while true do
+    Citizen.Wait(0)
+        if IsPedUsingScenario(GetPlayerPed(-1), "WORLD_HUMAN_WELDING") and (IsControlPressed(0, 32) or IsControlPressed(0, 33) or IsControlPressed(0, 34) or IsControlPressed(0, 35)) then
+        ClearPedTasks(GetPlayerPed(-1))
+        end
+    end
+end)
+
+Citizen.CreateThread(function()
+    while true do
+    Citizen.Wait(0)
+        if IsPedUsingScenario(GetPlayerPed(-1), "WORLD_HUMAN_CAR_PARK_ATTENDANT") and (IsControlPressed(0, 32) or IsControlPressed(0, 33) or IsControlPressed(0, 34) or IsControlPressed(0, 35)) then
+        ClearPedTasks(GetPlayerPed(-1))
+        end
+    end
+end)
+
+Citizen.CreateThread(function()
+    while true do
+    Citizen.Wait(0)
+        if IsPedUsingScenario(GetPlayerPed(-1), "CODE_HUMAN_MEDIC_KNEEL") and (IsControlPressed(0, 32) or IsControlPressed(0, 33) or IsControlPressed(0, 34) or IsControlPressed(0, 35)) then
+        ClearPedTasks(GetPlayerPed(-1))
+        end
+    end
+end)
+
+-- Emote Cancel Functions
 
 function EngineToggle()
     player = GetPlayerPed(-1)
@@ -2224,3 +2867,9 @@ function table.contains(table, element)
   end
   return false
 end
+
+-----------------------
+-- Lucifer 
+-- Copyrighted © Lucifer 2018
+-- Do not redistribute or edit in any way without my permission.
+----------------------

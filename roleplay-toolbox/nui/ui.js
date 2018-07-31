@@ -6,6 +6,21 @@
 
 --------------------------------------------------------------------------*/
 
+/*------------------------------------------------------------------------
+    Resource Rename Fix -- (Via Rhys19)
+------------------------------------------------------------------------*/
+
+var resourceName = ""; 
+var menuEnabled = false; 
+
+window.addEventListener( 'message', function( event ) {
+        var item = event.data;
+
+        if ( item.resourcename ) {
+            resourceName = item.resourcename;
+        }
+} );
+
 $( function() {
     // Adds all of the correct button actions 
     init();
@@ -75,7 +90,7 @@ function init() {
 
 // Send data to lua for processing.
 function sendData( name, data ) {
-    $.post( "http://roleplay-toolbox/" + name, JSON.stringify( data ), function( datab ) {
+    $.post( "http://" + resourceName + "/" + name, JSON.stringify( data ), function( datab ) {
         if ( datab != "ok" ) {
             console.log( datab );
         }            

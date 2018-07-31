@@ -1,6 +1,40 @@
---[[
-SERVER EVENTS FOR CIV ADVERTS
-]]--	
+-----------------------
+-- Lucifer 
+-- Copyrighted © Lucifer 2018
+-- Do not redistribute or edit in any way without my permission.
+----------------------
+
+-- LEO Events
+
+RegisterServerEvent('cuffGranted')
+AddEventHandler('cuffGranted', function(t)
+	TriggerClientEvent('getCuffed', t)
+end)
+
+RegisterServerEvent('uncuffGranted')
+AddEventHandler('uncuffGranted', function(t)
+	TriggerClientEvent('getUncuffed', t)
+end)
+
+RegisterServerEvent('dragRequest')
+AddEventHandler('dragRequest', function(t)
+	TriggerClientEvent('toggleDrag', t, source)
+end)
+
+RegisterServerEvent('forceEnterAsk')
+AddEventHandler('forceEnterAsk', function(t, v)
+	TriggerClientEvent('forcedEnteringVeh', t, v)
+end)
+
+RegisterServerEvent('confirmUnseat')
+AddEventHandler('confirmUnseat', function(t)
+	TriggerClientEvent('unseatme', t)
+end)
+
+-- LEO Events
+
+--SERVER EVENTS FOR CIV ADVERTS	
+
 RegisterServerEvent("syncad1")
 AddEventHandler('syncad1', function(inputText)
 TriggerClientEvent('displayad1', -1, inputText)
@@ -106,54 +140,20 @@ AddEventHandler('syncad21', function(inputText)
 TriggerClientEvent('displayad21', -1, inputText)
 end)
 
-
-RegisterServerEvent('wk_actionmenu:cuffGranted')
-AddEventHandler('wk_actionmenu:cuffGranted', function(t)
-	TriggerClientEvent('wk_actionmenu:getArrested', t)
+RegisterServerEvent("syncad22")
+AddEventHandler('syncad22', function(inputText)
+TriggerClientEvent('displayad22', -1, inputText)
 end)
 
-RegisterServerEvent('wk_actionmenu:dragRequest')
-AddEventHandler('wk_actionmenu:dragRequest', function(t)
-	TriggerClientEvent('wk_actionmenu:toggleDrag', t, source)
+RegisterServerEvent("SyncAd")
+AddEventHandler('SyncAd', function(adtype, inputText)
+	TriggerClientEvent('DisplayAd', -1, adtype, inputText)
 end)
 
-
-
-RegisterServerEvent('wk_actionmenu:forceEnterAsk')
-AddEventHandler('wk_actionmenu:forceEnterAsk', function(t, v)
-	TriggerClientEvent('wk_actionmenu:forcedEnteringVeh', t, v)
-end)
-
-RegisterServerEvent('wk_actionmenu:confirmUnseat')
-AddEventHandler('wk_actionmenu:confirmUnseat', function(t)
-	TriggerClientEvent('wk_actionmenu:unseatme', t)
-end)
-
-	-- Registers functions for chat message --
-RegisterServerEvent("chatMessage")
-RegisterServerEvent("returnData")
-
-function stringsplit(inputstr, sep)
-    if sep == nil then
-        sep = "%s"
-    end
-    local t={} ; i=1
-    for str in string.gmatch(inputstr, "([^"..sep.."]+)") do
-        t[i] = str
-        i = i + 1
-    end
-    return t
-end
-
-function tablelength(T)
-  local count = 0
-  for _ in pairs(T) do count = count + 1 end
-  return count
-end
 
 -- DO NOT REMOVE --
 
-local CurrentVersion = '1.4'
+local CurrentVersion = '2.0'
 local GithubResourceName = 'roleplay-toolbox'
 
 PerformHttpRequest('https://raw.githubusercontent.com/aka-lucifer/roleplay-toolbox-resources/master/VERSION', function(Error, NewestVersion, Header)
@@ -175,3 +175,9 @@ PerformHttpRequest('https://raw.githubusercontent.com/aka-lucifer/roleplay-toolb
 		print('\n')
 	end)
 end)
+
+-----------------------
+-- Lucifer 
+-- Copyrighted © Lucifer 2018
+-- Do not redistribute or edit in any way without my permission.
+----------------------
