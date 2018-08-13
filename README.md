@@ -19,4 +19,6 @@ Credit to Wolf Knight for creating the Action Menu - https://forum.fivem.net/t/r
 
 - Rhys19 & Deziel0945 - LEO Animations.
 
-- J.Manlet - Assistance in writing all of the adverts, due to not having time.
+- J.Manlet - Assistance in writing all of the adverts, due to not having time and whitelist code.
+
+- MontyPiper  - Clothing props.
