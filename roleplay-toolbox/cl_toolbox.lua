@@ -1086,7 +1086,7 @@ AddEventHandler('getCuffed', function()
 	FreezeEntityPosition(ped, true)
 	DisableControlAction(0,32, true) -- W
 	DisableControlAction(0,33, true) -- S
-        DisableControlAction(0,34, true) -- A
+       DisableControlAction(0,34, true) -- A
 	DisableControlAction(0,35, true) -- D
 	
 	isHandcuffed = true
